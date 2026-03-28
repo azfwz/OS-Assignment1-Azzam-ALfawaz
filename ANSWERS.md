@@ -1,89 +1,60 @@
-# Assignment Questions
+Assignment Questions - OS Concepts
 
-## Instructions
-Answer all 4 questions with detailed explanations. Each answer should be **3-5 sentences minimum** and demonstrate your understanding of the concepts.
+Question 1: Thread vs Process
 
----
+A process is like a big program that has its own memory and resources from the computer. A thread is a smaller part that lives inside a process and shares the same memory. It is much faster and cheaper for the computer to create threads than to create separate processes. In this assignment, we used threads because our simulation is one single program that needs to run tasks together. If we used processes, it would be very slow and use too much memory. Threads are perfect for this because they can easily talk to each other in our Java code.
 
-## Question 1: Thread vs Process
+Question 2: Ready Queue Behavior
 
-**Question**: Explain the difference between a **thread** and a **process**. Why did we use threads in this assignment instead of creating separate processes?
-
-**Your Answer:**
-
-[Write your answer here. Consider: What is a process? What is a thread? How do they differ in terms of memory, resources, creation overhead? Why are threads more suitable for this simulation?]
-
----
-
-## Question 2: Ready Queue Behavior
-
-**Question**: In Round-Robin scheduling, what happens when a process doesn't finish within its time quantum? Explain using an example from your program output.
-
-**Your Answer:**
-
-[Write your answer here. Describe the specific behavior - where does the process go? When does it run again? Give an example from your actual program output showing a process that was re-queued.]
+In Round-Robin scheduling, if a process doesn't finish its work during the time quantum, it must leave the CPU. The process goes back to the end of the ready queue to wait for its next turn. This ensures that no single process takes all the CPU time and everyone gets a fair chance. You can see this in my program output when a process says "yields CPU for context switch." It is like people waiting in a circle; if your time is up, you go to the back of the line.
 
 Example from my output:
-```
-[Paste a relevant snippet from your program output here showing a process being re-queued]
-```
 
-**Explanation of example:**
-[Explain what's happening in the output snippet you pasted]
+  ⏸ P1 completed quantum 2000ms │ Overall progress: [████░░░░] 50%
+     Remaining time: 2000ms
+  ↻ P1 yields CPU for context switch
+  ➕ P1 added to ready queue │ Burst time: 4000ms
 
----
 
-## Question 3: Thread States
+Explanation of example:
+In this snippet, P1 finished its 2000ms time quantum but it still has 2000ms of work left. Because it is not finished, the program moves it from the CPU back to the end of the "ready queue." Now, P1 has to wait for other processes like P2 or P3 to finish their turns before it can run again.
 
-**Question**: A thread can be in different states: **New**, **Runnable**, **Running**, **Waiting**, **Terminated**. Walk through these states for one process (P1) from your simulation.
+Question 3: Thread States
 
-**Your Answer:**
+In my simulation, every process like P1 goes through different steps or "states."
 
-[Write your answer here. For each state, explain when P1 enters that state during the simulation. Use your understanding of the code to trace through the lifecycle.]
+New: This is when the code first creates the process object new Process("P1", ...) but the thread hasn't started yet.
 
-1. **New**: [When is P1 in New state?]
+Runnable: P1 enters this state when it is added to the processQueue and is waiting for its turn.
 
-2. **Runnable**: [When does P1 become Runnable?]
+Running: P1 is in this state when the CPU picks it and the run() method starts executing the quantum.
 
-3. **Running**: [When is P1 Running?]
+Waiting: P1 enters a waiting state when it calls Thread.sleep() to simulate working or when the main thread waits using join().
 
-4. **Waiting**: [When/why would P1 be Waiting?]
+Terminated: This is the final state when P1 has 0 remaining time and the thread finishes its execution completely.
 
-5. **Terminated**: [When is P1 Terminated?]
+Question 4: Real-World Applications
 
----
+Example 1: Web Servers
+Description: A web server handles many people trying to visit a website at the same time.
+Why Round-Robin works well here: It gives every user a small amount of time so that everyone feels the website is responding. If one person is downloading a huge file, it won't stop other people from seeing the page. This makes the service fair and fast for everyone.
 
-## Question 4: Real-World Applications
+Example 2: Simple Task Managers
+Description: Our computers run many small background apps like the clock, anti-virus, and messengers.
+Why Round-Robin works well here: It allows the operating system to switch between these apps very quickly. Even if we have many apps open, they all stay updated because each one gets a little bit of CPU time. It keeps the computer smooth and prevents any small app from freezing.
 
-**Question**: Give **TWO** real-world examples where Round-Robin scheduling with threads would be useful. Explain why this scheduling algorithm works well for those scenarios.
+Summary
 
-**Your Answer:**
+Key concepts I understood through these questions:
 
-### Example 1: [Name of application/scenario]
+The difference between a process and a thread.
 
-**Description**: 
-[Describe the real-world scenario or application]
+How the Round-Robin algorithm shares time fairly.
 
-**Why Round-Robin works well here**: 
-[Explain why Round-Robin scheduling is suitable. Consider fairness, responsiveness, predictability, etc.]
+The lifecycle of a thread from start to finish.
 
-### Example 2: [Name of application/scenario]
+Concepts I need to study more:
 
-**Description**: 
-[Describe the real-world scenario or application]
+How threads share memory without crashing.
 
-**Why Round-Robin works well here**: 
-[Explain why Round-Robin scheduling is suitable. Consider fairness, responsiveness, predictability, etc.]
-
----
-
-## Summary
-
-**Key concepts I understood through these questions:**
-1. 
-2. 
-3. 
-
-**Concepts I need to study more:**
-1. 
-2. 
+Different types of scheduling algorithms other than Round-Robin.
